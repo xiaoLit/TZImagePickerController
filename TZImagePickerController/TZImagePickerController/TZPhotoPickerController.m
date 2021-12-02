@@ -171,6 +171,23 @@ static CGFloat itemMargin = 5;
 - (void)configCollectionView {
     if (!_collectionView) {
         _layout = [[UICollectionViewFlowLayout alloc] init];
+        
+        
+        //Lit change
+        BOOL limited = NO;
+        if (@available(iOS 14, *)) {
+            PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelReadWrite];
+            if (status == PHAuthorizationStatusLimited) {
+                limited = YES;
+            }
+        }
+        if (self->_models.count == 0 || limited) {
+            _layout.headerReferenceSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 50);
+        } else {
+            _layout.headerReferenceSize = CGSizeMake(0, 0);
+        }
+        
+        
         _collectionView = [[TZCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layout];
         if (@available(iOS 13.0, *)) {
             _collectionView.backgroundColor = UIColor.tertiarySystemBackgroundColor;
@@ -184,6 +201,12 @@ static CGFloat itemMargin = 5;
         [self.view addSubview:_collectionView];
         [_collectionView registerClass:[TZAssetCell class] forCellWithReuseIdentifier:@"TZAssetCell"];
         [_collectionView registerClass:[TZAssetCameraCell class] forCellWithReuseIdentifier:@"TZAssetCameraCell"];
+        
+        
+        //Lit change
+        [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"UICollectionReusableViewHeader"];
+
+        
     } else {
         [_collectionView reloadData];
     }
@@ -703,6 +726,45 @@ static CGFloat itemMargin = 5;
         [self pushPhotoPrevireViewController:photoPreviewVc];
     }
 }
+
+//Lit change
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *view;
+    if (kind == UICollectionElementKindSectionHeader) {
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"UICollectionReusableViewHeader" forIndexPath:indexPath];
+        UIButton *btn = [view viewWithTag:132132];
+        if (!btn) {
+            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 48)];
+            [btn setTitle:[NSBundle tz_localizedStringForKey:@"允许访问更多图片"] forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor colorWithRed:0.3 green:0.58 blue:0.97 alpha:1] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(clickSettingsMore) forControlEvents:UIControlEventTouchUpInside];
+            btn.tag = 132132;
+            [view addSubview:btn];
+        }
+    }
+    return view;
+}
+- (void)clickSettingsMore {
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle tz_localizedStringForKey:@"访问权限"] message:[NSBundle tz_localizedStringForKey:@"请允许访问您的所有照片"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:cancelAction];
+    
+    UIAlertAction *makeAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"确定"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self goSetting];
+    }];
+    [alert addAction:makeAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+- (void)goSetting {
+    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+        }
+    }
+}
+
 
 #pragma mark - UIScrollViewDelegate
 
