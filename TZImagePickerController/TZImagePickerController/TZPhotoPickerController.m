@@ -217,13 +217,15 @@ static CGFloat itemMargin = 5;
     } else {
         _collectionView.contentSize = CGSizeMake(self.view.tz_width, ((_model.count + self.columnNumber - 1) / self.columnNumber) * self.view.tz_width);
         if (_models.count == 0) {
-            _noDataLabel = [UILabel new];
-            _noDataLabel.textAlignment = NSTextAlignmentCenter;
-            _noDataLabel.text = [NSBundle tz_localizedStringForKey:@"No Photos or Videos"];
-            CGFloat rgb = 153 / 256.0;
-            _noDataLabel.textColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
-            _noDataLabel.font = [UIFont boldSystemFontOfSize:20];
-            [_collectionView addSubview:_noDataLabel];
+            if (!_noDataLabel) {
+                _noDataLabel = [UILabel new];
+                _noDataLabel.textAlignment = NSTextAlignmentCenter;
+                _noDataLabel.text = [NSBundle tz_localizedStringForKey:@"No Photos or Videos"];
+                CGFloat rgb = 153 / 256.0;
+                _noDataLabel.textColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
+                _noDataLabel.font = [UIFont boldSystemFontOfSize:20];
+                [_collectionView addSubview:_noDataLabel];
+            }
         } else if (_noDataLabel) {
             [_noDataLabel removeFromSuperview];
             _noDataLabel = nil;
@@ -427,14 +429,6 @@ static CGFloat itemMargin = 5;
     
     [TZImageManager manager].columnNumber = [TZImageManager manager].columnNumber;
     [TZImageManager manager].photoWidth = tzImagePickerVc.photoWidth;
-    
-    //Lit change
-    if (_noDataLabel) {
-        if (self->_models.count != 0) {
-            [_noDataLabel removeFromSuperview];
-            _noDataLabel = nil;
-        }
-    }
     
     [self.collectionView reloadData];
     
@@ -894,14 +888,6 @@ static CGFloat itemMargin = 5;
             [strongSelf checkSelectedModels];
         }
         
-        //Lit change
-        if (strongSelf.noDataLabel) {
-            if (self->_models.count != 0) {
-                [strongSelf.noDataLabel removeFromSuperview];
-                strongSelf.noDataLabel = nil;
-            }
-        }
-        
         [strongSelf.collectionView reloadData];
         [strongSelf refreshBottomToolBarStatus];
     }];
@@ -1074,14 +1060,6 @@ static CGFloat itemMargin = 5;
         }
     }
     _collectionView.hidden = YES;
-    
-    //Lit change
-    if (_noDataLabel) {
-        if (self->_models.count != 0) {
-            [_noDataLabel removeFromSuperview];
-            _noDataLabel = nil;
-        }
-    }
     
     [_collectionView reloadData];
     
