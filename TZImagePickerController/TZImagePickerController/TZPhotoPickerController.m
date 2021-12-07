@@ -182,7 +182,7 @@ static CGFloat itemMargin = 5;
             }
         }
         if (self->_models.count == 0 || limited) {
-            _layout.headerReferenceSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 50);
+            _layout.headerReferenceSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 30);
         } else {
             _layout.headerReferenceSize = CGSizeMake(0, 0);
         }
@@ -427,6 +427,15 @@ static CGFloat itemMargin = 5;
     
     [TZImageManager manager].columnNumber = [TZImageManager manager].columnNumber;
     [TZImageManager manager].photoWidth = tzImagePickerVc.photoWidth;
+    
+    //Lit change
+    if (_noDataLabel) {
+        if (self->_models.count != 0) {
+            [_noDataLabel removeFromSuperview];
+            _noDataLabel = nil;
+        }
+    }
+    
     [self.collectionView reloadData];
     
     if (tzImagePickerVc.photoPickerPageDidLayoutSubviewsBlock) {
@@ -734,17 +743,26 @@ static CGFloat itemMargin = 5;
         view = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"UICollectionReusableViewHeader" forIndexPath:indexPath];
         UIButton *btn = [view viewWithTag:132132];
         if (!btn) {
-            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 48)];
+            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 26)];
             [btn setTitle:[NSBundle tz_localizedStringForKey:@"允许访问更多图片"] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor colorWithRed:0.3 green:0.58 blue:0.97 alpha:1] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(clickSettingsMore) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 132132;
+            btn.titleLabel.font = [UIFont systemFontOfSize:16];
             [view addSubview:btn];
         }
     }
     return view;
 }
 - (void)clickSettingsMore {
+    //直接跳设置
+    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+        }
+    }
+    return;
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle tz_localizedStringForKey:@"访问权限"] message:[NSBundle tz_localizedStringForKey:@"请允许访问您的所有照片"] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil];
@@ -875,6 +893,15 @@ static CGFloat itemMargin = 5;
         if (needCheckSelectedModels) {
             [strongSelf checkSelectedModels];
         }
+        
+        //Lit change
+        if (strongSelf.noDataLabel) {
+            if (self->_models.count != 0) {
+                [strongSelf.noDataLabel removeFromSuperview];
+                strongSelf.noDataLabel = nil;
+            }
+        }
+        
         [strongSelf.collectionView reloadData];
         [strongSelf refreshBottomToolBarStatus];
     }];
@@ -1047,6 +1074,15 @@ static CGFloat itemMargin = 5;
         }
     }
     _collectionView.hidden = YES;
+    
+    //Lit change
+    if (_noDataLabel) {
+        if (self->_models.count != 0) {
+            [_noDataLabel removeFromSuperview];
+            _noDataLabel = nil;
+        }
+    }
+    
     [_collectionView reloadData];
     
     _shouldScrollToBottom = YES;
