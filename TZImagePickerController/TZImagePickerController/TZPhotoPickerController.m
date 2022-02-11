@@ -738,7 +738,7 @@ static CGFloat itemMargin = 5;
         UIButton *btn = [view viewWithTag:132132];
         if (!btn) {
             UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 26)];
-            [btn setTitle:[NSBundle tz_localizedStringForKey:@"允许访问更多图片"] forState:UIControlStateNormal];
+            [btn setTitle:[NSBundle tz_localizedStringForKey:@"Allow access to more pictures"] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor colorWithRed:0.3 green:0.58 blue:0.97 alpha:1] forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(clickSettingsMore) forControlEvents:UIControlEventTouchUpInside];
             btn.tag = 132132;
@@ -757,16 +757,16 @@ static CGFloat itemMargin = 5;
         }
     }
     return;
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle tz_localizedStringForKey:@"访问权限"] message:[NSBundle tz_localizedStringForKey:@"请允许访问您的所有照片"] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"取消"] style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:cancelAction];
-    
-    UIAlertAction *makeAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"确定"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self goSetting];
-    }];
-    [alert addAction:makeAction];
-    [self presentViewController:alert animated:YES completion:nil];
+//
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSBundle tz_localizedStringForKey:@"Access permission"] message:[NSBundle tz_localizedStringForKey:@"Please allow access to all your photos"] preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"Cancel"] style:UIAlertActionStyleCancel handler:nil];
+//    [alert addAction:cancelAction];
+//
+//    UIAlertAction *makeAction = [UIAlertAction actionWithTitle:[NSBundle tz_localizedStringForKey:@"Sure"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [self goSetting];
+//    }];
+//    [alert addAction:makeAction];
+//    [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)goSetting {
     NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

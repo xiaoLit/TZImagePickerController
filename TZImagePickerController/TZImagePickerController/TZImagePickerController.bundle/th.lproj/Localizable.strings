@@ -18,3 +18,6 @@
 "Can not choose both video and photo" = "ไม่สามารถเลือกได้ทั้งวิดีโอและภาพถ่าย";
 "Can not choose both photo and GIF" = "ไม่สามารถเลือกได้ทั้งภาพถ่ายและ GIF";
 "Selected for %ld seconds" = "เลือกไว้เป็นเวลา %ld วินาที";
+
+//Lit change
+"Allow access to more pictures" = "อนุญาตให้เข้าถึงรูปภาพเพิ่มเติม";

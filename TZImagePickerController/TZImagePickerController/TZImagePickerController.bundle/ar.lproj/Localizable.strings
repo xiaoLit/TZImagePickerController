@@ -24,3 +24,6 @@
 "Allow %@ to access your album in \"Settings -> Privacy -> Photos\"" = "السماح لـ %@ بالوصول إلى الألبوم في \"الإعدادات > الخصوصية > الصور\"";
 "Please allow %@ to access your camera in \"Settings -> Privacy -> Camera\"" = "الرجاء السماح لـ %@ بالوصول إلى الكاميرا في \"الإعدادات > الخصوصية > الكاميرا\"";
 "Selected for %ld seconds" = "محدد لمدة %ld ثانية";
+
+//Lit change
+"Allow access to more pictures" = "السماح بالوصول إلى المزيد من الصور";

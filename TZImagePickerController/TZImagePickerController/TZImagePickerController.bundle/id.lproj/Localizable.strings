@@ -1,0 +1,29 @@
+"KEY"                     = "印尼语";
+"OK"                      = "Oke";
+"Back"                    = "Kembali";
+"Done"                    = "Selesai";
+"Edit"                    = "Sunting"
+"Sorry"                   = "Maaf";
+"Cancel"                  = "Membatalkan";
+"Setting"                 = "Pengaturan";
+"Photos"                  = "Foto";
+"Videos"                  = "Video";
+"Preview"                 = "Pratinjau";
+"Full image"              = "Gambar penuh";
+"Processing..."           = "Pengolahan...";
+"No Photos or Videos"     = "Tidak Ada Foto atau Video";
+"Synchronizing photos from iCloud" = "Menyinkronkan foto dari iCloud";
+"iCloud sync failed"    = "Sinkronisasi iCloud gagal";
+"Can not use camera"      = "Tidak dapat menggunakan kamera";
+"Can not choose both video and photo" = "Tidak dapat memilih video dan foto";
+"Can not choose both photo and GIF" = "Tidak dapat memilih foto dan GIF";
+"Select the video when in multi state, we will handle the video as a photo" = "Pilih video saat dalam keadaan multi, kami akan menangani video sebagai foto";
+"Can not jump to the privacy settings page, please go to the settings page by self, thank you" = "Tidak bisa melompat ke halaman pengaturan privasi, silakan masuk ke halaman pengaturan sendiri, terima kasih";
+"Select a maximum of %zd photos" = "Pilih maksimal %zd foto";
+"Select a minimum of %zd photos" = "Pilih minimal %zd foto";
+"Allow %@ to access your album in \"Settings -> Privacy -> Photos\"" = "Izinkan %@ mengakses album Anda di \"Setelan -> Privasi -> Foto\"";
+"Please allow %@ to access your camera in \"Settings -> Privacy -> Camera\"" = "Izinkan %@ mengakses kamera Anda di \"Setelan -> Privasi -> Kamera\"";
+"Selected for %ld seconds" = "Dipilih untuk %ld detik";
+
+//Lit change
+"Allow access to more pictures" = "Izinkan akses ke lebih banyak gambar";

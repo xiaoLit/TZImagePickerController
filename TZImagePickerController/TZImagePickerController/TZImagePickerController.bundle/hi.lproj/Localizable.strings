@@ -1,0 +1,32 @@
+"KEY"                     = "印地语";
+"OK"                      = "ठीक है";
+"Back"                    = "पीछे";
+"Done"                    = "किया हुआ";
+"Edit"                    = "संपादित करें"
+"Sorry"                   = "माफ़ करना";
+"Cancel"                  = "रद्द करें";
+"Setting"                 = "स्थापना";
+"Photos"                  = "तस्वीरें";
+"Videos"                  = "वीडियो";
+"Preview"                 = "पूर्वावलोकन";
+"Full image"              = "पूरी छवि";
+"Processing..."           = "प्रसंस्करण...";
+"No Photos or Videos"     = "कोई फ़ोटो या वीडियो नहीं";
+"Synchronizing photos from iCloud" = "iCloud से तस्वीरें सिंक्रोनाइज़ करना";
+"iCloud sync failed"    = "आईक्लाउड सिंक विफल";
+"Can not use camera"      = "कैमरे का उपयोग नहीं कर सकते";
+"Can not choose both video and photo" = "वीडियो और फोटो दोनों नहीं चुन सकते";
+"Can not choose both photo and GIF" = "फोटो और जीआईएफ दोनों को नहीं चुन सकते";
+"Select the video when in multi state, we will handle the video as a photo" = "वीडियो का चयन करें जब मल्टी स्टेट में, हम वीडियो को फोटो के रूप में हैंडल करेंगे";
+"Can not jump to the privacy settings page, please go to the settings page by self, thank you" = "गोपनीयता सेटिंग पृष्ठ पर नहीं जा सकते, कृपया स्वयं सेटिंग पृष्ठ पर जाएं, धन्यवाद";
+"Select a maximum of %zd photos" = "अधिकतम %zd फ़ोटो चुनें";
+"Select a minimum of %zd photos" = "कम से कम %zd फ़ोटो चुनें";
+"Allow %@ to access your album in \"Settings -> Privacy -> Photos\"" = "\" सेटिंग -> गोपनीयता -> फ़ोटो. \" में %@ को आपके एल्बम तक पहुंचने की अनुमति दें";
+"Please allow %@ to access your camera in \"Settings -> Privacy -> Camera\"" = "कृपया %@ को \"सेटिंग में अपने कैमरे तक पहुंचने की अनुमति दें -> गोपनीयता -> कैमरा\"";
+"Selected for %ld seconds" = "% ld सेकंड के लिए चयनित";
+
+//Lit change
+"Allow access to more pictures" = "अधिक चित्रों तक पहुंच की अनुमति दें";
+
+
+

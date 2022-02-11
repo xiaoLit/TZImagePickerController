@@ -18,3 +18,6 @@
 "Can not choose both video and photo" = "Δεν είναι δυνατή η επιλογή του βίντεο και της φωτογραφίας";
 "Can not choose both photo and GIF" = "Δεν είναι δυνατή η επιλογή φωτογραφίας και GIF";
 "Selected for %ld seconds" = "Selected for %ld seconds";
+
+//Lit change
+"Allow access to more pictures" = "Επιτρέψτε την πρόσβαση σε περισσότερες φωτογραφίες";
