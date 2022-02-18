@@ -662,6 +662,11 @@
     [_selectedAssetIds removeObject:model.asset.localIdentifier];
 }
 
+- (void)removeSelectedAllModel {
+    [_selectedModels removeAllObjects];
+    [_selectedAssetIds removeAllObjects];
+}
+
 - (UIImage *)createImageWithColor:(UIColor *)color size:(CGSize)size radius:(CGFloat)radius {
     if (!color) {
         color = self.iconThemeColor;

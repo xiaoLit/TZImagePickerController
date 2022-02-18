@@ -292,6 +292,11 @@
     imagePickerVc.allowTakeVideo = self.showTakeVideoBtnSwitch.isOn;   // 在内部显示拍视频按
     imagePickerVc.videoMaximumDuration = 10; // 视频最大拍摄时间
     imagePickerVc.allowEditVideo = YES; // 允许编辑视频
+    
+    //Lit change 全选
+    imagePickerVc.allowSelectAll = YES;
+    imagePickerVc.onlyReturnAsset = YES;
+        
     // imagePickerVc.saveEditedVideoToCollection = YES; // 编辑后的视频是否自动保存到相册
     // imagePickerVc.maxCropVideoDuration = 30; // 裁剪视频的最大时长
     // imagePickerVc.presetName = AVAssetExportPresetMediumQuality // 编辑后的视频的导出质量
@@ -418,7 +423,7 @@
     // You can get the photos by block, the same as by delegate.
     // 你可以通过block或者代理，来得到用户选择的照片.
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-
+        NSLog(@"!!!%lu", (unsigned long)assets.count);
     }];
     
     imagePickerVc.modalPresentationStyle = UIModalPresentationFullScreen;

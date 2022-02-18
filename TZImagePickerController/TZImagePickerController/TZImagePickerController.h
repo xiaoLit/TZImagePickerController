@@ -163,6 +163,7 @@
 @property (nonatomic, strong) NSMutableArray *selectedAssetIds;
 - (void)addSelectedModel:(TZAssetModel *)model;
 - (void)removeSelectedModel:(TZAssetModel *)model;
+- (void)removeSelectedAllModel;
 
 /// Minimum selectable photo width, Default is 0
 /// 最小可选中的图片宽度，默认是0，小于这个宽度的图片不可选中
@@ -219,6 +220,7 @@
 - (void)hideProgressHUD;
 @property (nonatomic, assign) BOOL isSelectOriginalPhoto;
 @property (assign, nonatomic) BOOL needShowStatusBar;
+@property (nonatomic, assign) BOOL allowSelectAll;
 
 #pragma mark -
 @property (nonatomic, copy) NSString *takePictureImageName __attribute__((deprecated("Use -takePictureImage.")));

@@ -24,6 +24,7 @@
     
     UIView *_bottomToolBar;
     UIButton *_previewButton;
+    UIButton *_selectAllButton;
     UIButton *_doneButton;
     UIImageView *_numberImageView;
     UILabel *_numberLabel;
@@ -33,6 +34,7 @@
     
     BOOL _shouldScrollToBottom;
     BOOL _showTakePhotoBtn;
+    BOOL _allowSelectAll;
     
     CGFloat _offsetItemCount;
 }
@@ -82,6 +84,7 @@ static CGFloat itemMargin = 5;
     self.isFirstAppear = YES;
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     _isSelectOriginalPhoto = tzImagePickerVc.isSelectOriginalPhoto;
+    _allowSelectAll = tzImagePickerVc.allowSelectAll;
     _shouldScrollToBottom = YES;
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = UIColor.tertiarySystemBackgroundColor;
@@ -280,6 +283,18 @@ static CGFloat itemMargin = 5;
     [_previewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     _previewButton.enabled = tzImagePickerVc.selectedModels.count;
     
+    if (_allowSelectAll) {
+        _selectAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_selectAllButton addTarget:self action:@selector(clickSelectAllBtn:) forControlEvents:UIControlEventTouchUpInside];
+        _selectAllButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        _selectAllButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        _selectAllButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+        [_selectAllButton setTitle:@"全选" forState:UIControlStateNormal];
+        [_selectAllButton setTitle:@"取消全选" forState:UIControlStateSelected];
+        [_selectAllButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_selectAllButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    }
+  
     if (tzImagePickerVc.allowPickingOriginalPhoto) {
         _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, [TZCommonTools tz_isRightToLeftLayout] ? 10 : -10, 0, 0);
@@ -357,6 +372,9 @@ static CGFloat itemMargin = 5;
     
     [_bottomToolBar addSubview:_divideLine];
     [_bottomToolBar addSubview:_previewButton];
+    if (_allowSelectAll) {
+        [_bottomToolBar addSubview:_selectAllButton];
+    }
     [_bottomToolBar addSubview:_doneButton];
     [_bottomToolBar addSubview:_numberImageView];
     [_bottomToolBar addSubview:_numberLabel];
@@ -416,6 +434,10 @@ static CGFloat itemMargin = 5;
     }
     _previewButton.frame = CGRectMake(10, 3, previewWidth, 44);
     _previewButton.tz_width = !tzImagePickerVc.showSelectBtn ? 0 : previewWidth;
+    if (_allowSelectAll) {
+        _selectAllButton.frame = CGRectMake(_previewButton.tz_right + 10, 3, 120, 44);
+    }
+    
     if (tzImagePickerVc.allowPickingOriginalPhoto) {
         CGFloat fullImageWidth = [tzImagePickerVc.fullImageBtnTitleStr boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.width;
         _originalPhotoButton.frame = CGRectMake(CGRectGetMaxX(_previewButton.frame), 0, fullImageWidth + 56, 50);
@@ -447,6 +469,41 @@ static CGFloat itemMargin = 5;
 - (void)navLeftBarButtonClick{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)clickSelectAllBtn: (UIButton *)sender {
+ 
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+
+    //全选
+    if (!sender.isSelected) {
+        for (TZAssetModel *model in _models) {
+            if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
+                return;
+            }
+            
+            model.isSelected = YES;
+            [tzImagePickerVc addSelectedModel:model];
+//            [self setAsset:model.asset isSelect:YES];
+        }
+        
+    } else {//取消全选
+        for (TZAssetModel *model in _models) {
+            model.isSelected = NO;
+//            [self setAsset:model.asset isSelect:NO];
+        }
+        [tzImagePickerVc removeSelectedAllModel];
+    }
+    
+    [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
+    [self refreshBottomToolBarStatus];
+    if (tzImagePickerVc.showSelectedIndex || tzImagePickerVc.showPhotoCannotSelectLayer) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_RELOAD_NOTIFICATION" object:self.navigationController];
+    }
+    [self.collectionView reloadData];
+    
+    sender.selected = !sender.selected;
+}
+
 - (void)previewButtonClick {
     TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
     [self pushPhotoPrevireViewController:photoPreviewVc needCheckSelectedModels:YES];
