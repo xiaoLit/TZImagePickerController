@@ -80,7 +80,9 @@ static CGFloat itemMargin = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    if ([[TZImageManager manager] authorizationStatusAuthorized] || !SYSTEM_VERSION_GREATER_THAN_15) {
+        [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    }
     self.isFirstAppear = YES;
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     _isSelectOriginalPhoto = tzImagePickerVc.isSelectOriginalPhoto;
@@ -149,7 +151,7 @@ static CGFloat itemMargin = 5;
         self->_collectionView.hidden = YES;
         [self configBottomToolBar];
         
-        [self scrollCollectionViewToBottom];
+        [self prepareScrollCollectionViewToBottom];
     });
 }
 
@@ -955,7 +957,15 @@ static CGFloat itemMargin = 5;
     }];
     [photoPreviewVc setDoneButtonClickBlockCropMode:^(UIImage *cropedImage, id asset) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf didGetAllPhotos:@[cropedImage] assets:@[asset] infoArr:nil];
+        NSArray *assets = @[];
+        if (asset) {
+            assets = @[asset];
+        }
+        NSArray *photos = @[];
+        if (cropedImage) {
+            photos = @[cropedImage];
+        }
+        [strongSelf didGetAllPhotos:photos assets:assets infoArr:nil];
     }];
     [self.navigationController pushViewController:photoPreviewVc animated:YES];
 }
@@ -971,24 +981,35 @@ static CGFloat itemMargin = 5;
     }];
 }
 
-- (void)scrollCollectionViewToBottom {
-    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+- (void)prepareScrollCollectionViewToBottom {
     if (_shouldScrollToBottom && _models.count > 0) {
-        NSInteger item = 0;
-        if (tzImagePickerVc.sortAscendingByModificationDate) {
-            item = _models.count - 1;
-            if (_showTakePhotoBtn) {
-                item += 1;
-            }
+        // try fix #1562：https://github.com/banchichen/TZImagePickerController/issues/1562
+        if (@available(iOS 15.0, *)) {
+            [_collectionView performBatchUpdates:^{} completion:^(BOOL finished) {
+                [self scrollCollectionViewToBottom];
+            }];
+        } else {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self scrollCollectionViewToBottom];
+            });
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self->_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
-            self->_shouldScrollToBottom = NO;
-            self->_collectionView.hidden = NO;
-        });
     } else {
         _collectionView.hidden = NO;
     }
+}
+
+- (void)scrollCollectionViewToBottom {
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+    NSInteger item = 0;
+    if (tzImagePickerVc.sortAscendingByModificationDate) {
+        item = _models.count - 1;
+        if (_showTakePhotoBtn) {
+            item += 1;
+        }
+    }
+    [self->_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    self->_shouldScrollToBottom = NO;
+    self->_collectionView.hidden = NO;
 }
 
 - (void)checkSelectedModels {
@@ -1121,7 +1142,7 @@ static CGFloat itemMargin = 5;
     [_collectionView reloadData];
     
     _shouldScrollToBottom = YES;
-    [self scrollCollectionViewToBottom];
+    [self prepareScrollCollectionViewToBottom];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
