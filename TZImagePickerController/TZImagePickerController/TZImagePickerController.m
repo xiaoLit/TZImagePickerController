@@ -372,6 +372,7 @@
 - (void)configDefaultBtnTitle {
     self.doneBtnTitleStr = [NSBundle tz_localizedStringForKey:@"Done"];
     self.cancelBtnTitleStr = [NSBundle tz_localizedStringForKey:@"Cancel"];
+    self.backBtnChooseAlbumTitleStr = [NSBundle tz_localizedStringForKey:@"Select album"];
     self.previewBtnTitleStr = [NSBundle tz_localizedStringForKey:@"Preview"];
     self.fullImageBtnTitleStr = [NSBundle tz_localizedStringForKey:@"Full image"];
     self.settingBtnTitleStr = [NSBundle tz_localizedStringForKey:@"Setting"];

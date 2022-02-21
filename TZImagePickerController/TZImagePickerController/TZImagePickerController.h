@@ -253,6 +253,7 @@
 
 @property (nonatomic, copy) NSString *doneBtnTitleStr;
 @property (nonatomic, copy) NSString *cancelBtnTitleStr;
+@property (nonatomic, copy) NSString *backBtnChooseAlbumTitleStr;
 @property (nonatomic, copy) NSString *previewBtnTitleStr;
 @property (nonatomic, copy) NSString *fullImageBtnTitleStr;
 @property (nonatomic, copy) NSString *settingBtnTitleStr;
